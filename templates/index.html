@@ -8,12 +8,19 @@
     </head>
     <body>
         <h1>Euler</h1>
+        <h2> File Upload </h2>
         <form method="POST" enctype="multipart/form-data">
             {{form.hidden_tag()}}
             {{form.file()}}
-            {{form.contract_address()}}
+            <h2> Name of Research Paper </h2>
+            {{form.name()}}
+            <h2> Summary of Research Paper </h2>
+            {{form.description()}}
+            <h2> Front Cover Image Link </h2>
+            {{form.image_link()}}
             {{form.submit()}}
-        </form>
+                  
+      </form>
         <h2>
             Contract Address Details
         </h2>
