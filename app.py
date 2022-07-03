@@ -1,10 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, url_for
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 import os
 from wtforms.validators import InputRequired
+import sys
 
+rel_file_path = None
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -23,9 +25,20 @@ def home():
         file = form.file.data #Grab the file
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'], secure_filename(file.filename))) # Then save the file
         file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'], secure_filename(file.filename))
-        print(file_path)
-        return 'File has been saved'
+        rel_file_path = file_path
+        print('-'*26)
+        print(rel_file_path)
+        print('-'*26)
+        return redirect(url_for('landing'))
     return render_template('index.html', form=form)
+
+@app.route('/landing')
+def landing():
+    return 'Welcome to Landing page - HTML still needs to load'
+
+@app.route('/fail')
+def fail():
+    return 'Your submission has failed'
 
 if __name__ == '__main__':
     app.run(debug=True)
