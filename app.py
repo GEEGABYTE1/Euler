@@ -34,7 +34,7 @@ def home():
 
 @app.route('/landing')
 def landing():
-    return 'Welcome to Landing page - HTML still needs to load'
+    return render_template('landing.html')
 
 @app.route('/fail')
 def fail():
