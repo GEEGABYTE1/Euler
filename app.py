@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 rel_file_path = None
-contract_addresses = []
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -20,7 +20,10 @@ app.config['UPLOAD_FOLDER'] = 'static/files'
 class UploadFileForm(FlaskForm):
     file = FileField('File', validators=[InputRequired()])
     contract_address = StringField()
-    submit = SubmitField('Upload File')
+    name = StringField()
+    description = StringField()
+    image_link = StringField()
+    submit = SubmitField('Submit')
 
 
 @app.route('/', methods=['GET','POST'])
@@ -31,27 +34,20 @@ def home():
         file = form.file.data #Grab the file
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'], secure_filename(file.filename))) # Then save the file
         file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'], secure_filename(file.filename))
-        rel_file_path = file_path
+        name_of_nft = form.name.data 
+        nft_description = form.description.data
+        image_link = form.image_link.data
+        rel_file_path = image_link
         print('-'*26)
         print(rel_file_path)
         print('-'*26)
-        text = form.contract_address.data
-        contract_addresses.append(text)
         return redirect(url_for('landing'))
     return render_template('index.html', form=form)
 
-class UploadFileForm2(FlaskForm):
-    name = StringField()
-    description = StringField()
-    submit = SubmitField('DeployNFT')
 
 @app.route('/landing', methods=['GET', 'POST'])
-def landing():
-    
-    
-
-    
-    return render_template('landing.html', result=str((2+2)), address=contract_addresses[0])
+def landing():    
+    return render_template('landing.html', result=str((2+2)), address=rel_file_path)
 
          
 
