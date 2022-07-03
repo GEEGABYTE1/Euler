@@ -1,17 +1,15 @@
 import re
 from flask import Flask, redirect, render_template, url_for, request
 from flask_wtf import FlaskForm
-#from requests import request
 from wtforms import FileField, SubmitField, StringField
 from werkzeug.utils import secure_filename
 import os
 from wtforms.validators import InputRequired
 import sys
 from thirdweb import ThirdwebSDK
-from thirdweb.types import NewDirectListing
 from dotenv import load_dotenv
 
-
+load_dotenv()
 rel_file_path = None
 contract_addresses = []
 
@@ -42,11 +40,20 @@ def home():
         return redirect(url_for('landing'))
     return render_template('index.html', form=form)
 
+class UploadFileForm2(FlaskForm):
+    name = StringField()
+    description = StringField()
+    submit = SubmitField('DeployNFT')
+
 @app.route('/landing', methods=['GET', 'POST'])
 def landing():
-    print(contract_addresses[0])
+    
+    
+
+    
     return render_template('landing.html', result=str((2+2)), address=contract_addresses[0])
 
+         
 
 
 
