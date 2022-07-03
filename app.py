@@ -1,12 +1,19 @@
-from flask import Flask, redirect, render_template, url_for
+import re
+from flask import Flask, redirect, render_template, url_for, request
 from flask_wtf import FlaskForm
-from wtforms import FileField, SubmitField
+#from requests import request
+from wtforms import FileField, SubmitField, StringField
 from werkzeug.utils import secure_filename
 import os
 from wtforms.validators import InputRequired
 import sys
+from thirdweb import ThirdwebSDK
+from thirdweb.types import NewDirectListing
+from dotenv import load_dotenv
+
 
 rel_file_path = None
+contract_addresses = []
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -14,6 +21,7 @@ app.config['UPLOAD_FOLDER'] = 'static/files'
 
 class UploadFileForm(FlaskForm):
     file = FileField('File', validators=[InputRequired()])
+    contract_address = StringField()
     submit = SubmitField('Upload File')
 
 
@@ -29,12 +37,18 @@ def home():
         print('-'*26)
         print(rel_file_path)
         print('-'*26)
+        text = form.contract_address.data
+        contract_addresses.append(text)
         return redirect(url_for('landing'))
     return render_template('index.html', form=form)
 
-@app.route('/landing')
+@app.route('/landing', methods=['GET', 'POST'])
 def landing():
-    return render_template('landing.html')
+    print(contract_addresses[0])
+    return render_template('landing.html', result=str((2+2)), address=contract_addresses[0])
+
+
+
 
 @app.route('/fail')
 def fail():
