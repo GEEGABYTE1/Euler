@@ -1,0 +1,38 @@
+from lib2to3.pgen2 import token
+from thirdweb import ThirdwebSDK
+from thirdweb.types import NewDirectListing
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+class Marketplace:
+    sdk = ThirdwebSDK.from_private_key(os.environ.get("PRIVATE_KEY"), os.environ.get('API_URL'))
+    marketplace_address = os.environ.get("MARKETPLACE_CONTRACT_ADDRESS")
+    marketplace = sdk.get_marketplace(marketplace_address)
+
+    def create_listing(self):
+        asset_contract_address = '0x127a95027B5c7E1D807433837C9cDD7e6f336803'
+        token_id=12 # Arithmetic Increment/Index on the list of NFTS that we need to fetch
+        start_time_in_seconds = 10
+        listing_duration_in_seconds = 180
+        quantity = 1
+        currency_contract_address = os.environ.get('TOKEN_ADDRESS')
+        buyout_price_per_token = 0.5
+
+        
+        self.marketplace.direct.create_listing(NewDirectListing(
+            asset_contract_address=asset_contract_address,
+            token_id=token_id,
+            start_time_in_seconds=start_time_in_seconds,
+            listing_duration_in_seconds=listing_duration_in_seconds,
+            quantity=quantity,
+            currency_contract_address=currency_contract_address,
+            buyout_price_per_token=buyout_price_per_token
+        ))
+        print('Success')
+
+
+        
+
+
