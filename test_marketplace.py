@@ -45,11 +45,22 @@ class Token:
         self.token_module.transfer(toAddress, amount)
 
     def get_token_balance(self):  
-        balance = self.token_module.balanceOf(self.deployer_address)  
-        print('Balance of Deployer: {} Euler Tokens'.format(balance))
+        balance = self.token_module.balanceOf(self.deployer_address) 
+        return balance
+        #print('Balance of Deployer: {} Euler Tokens'.format(balance))
 
     def get_allowance(self, other_address):
         allowance = self.token_module.allowance_of(self.deployer_address, other_address)
-        print('{otherAddress} Balance: {amount}'.format(otherAddress=other_address, amount=allowance))
+        return allowance
+        #print('{otherAddress} Balance: {amount}'.format(otherAddress=other_address, amount=allowance))
     
+    def burn_token(self):
+        amount = int(input('Amount: '))
+        totalSupply = self.get_token_balance()
+        if amount > totalSupply:
+            print('{} is larger than totalSupply ({}) - cannot be burned'.format(amount, totalSupply))
+        else:
+            self.token_module.burn(amount)
+            print('{} was burned successfully'.format(amount))
+            print('New Supply: {}'.format(self.get_token_balance()))
 
