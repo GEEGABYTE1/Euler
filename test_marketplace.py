@@ -37,16 +37,19 @@ class Token:
     network = os.environ.get("API_URL")
     sdk = ThirdwebSDK.from_private_key(PRIVATE_KEY, network) 
     token_module = sdk.get_currency_module(os.environ.get('TOKEN_ADDRESS')) 
+    deployer_address = os.environ.get('DEPLOYER_ADDRESS')
 
     def mint_token(self):
         toAddress = '0xec2a636B21E2935897DB0D779A66221A82B4fd02'    # Any Address
         amount = 1
         self.token_module.transfer(toAddress, amount)
 
-    def get_token_balance(self):
-        address = os.environ.get('DEPLOYER_ADDRESS')
-        balance = self.token_module.balanceOf(address)  
+    def get_token_balance(self):  
+        balance = self.token_module.balanceOf(self.deployer_address)  
         print('Balance of Deployer: {} Euler Tokens'.format(balance))
 
+    def get_allowance(self, other_address):
+        allowance = self.token_module.allowance_of(self.deployer_address, other_address)
+        print('{otherAddress} Balance: {amount}'.format(otherAddress=other_address, amount=allowance))
     
 
