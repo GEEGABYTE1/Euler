@@ -32,7 +32,21 @@ class Marketplace:
         ))
         print('Success')
 
+class Token:
+    PRIVATE_KEY = os.environ.get('PRIVATE_KEY')
+    network = os.environ.get("API_URL")
+    sdk = ThirdwebSDK.from_private_key(PRIVATE_KEY, network) 
+    token_module = sdk.get_currency_module(os.environ.get('TOKEN_ADDRESS')) 
 
-        
+    def mint_token(self):
+        toAddress = '0xec2a636B21E2935897DB0D779A66221A82B4fd02'    # Any Address
+        amount = 1
+        self.token_module.transfer(toAddress, amount)
 
+    def get_token_balance(self):
+        address = os.environ.get('DEPLOYER_ADDRESS')
+        balance = self.token_module.balanceOf(address)  
+        print('Balance of Deployer: {} Euler Tokens'.format(balance))
+
+    
 
