@@ -4,6 +4,7 @@ from thirdweb import ThirdwebSDK
 from thirdweb.types import NewDirectListing
 from dotenv import load_dotenv
 import os
+from uniswap import Uniswap
 
 load_dotenv()
 
@@ -14,12 +15,12 @@ class Marketplace:
 
     def create_listing(self):
         asset_contract_address = '0x1b4ca86C0e779F8A63088664857fe2C64fA11CaB'
-        token_id=11 # Arithmetic Increment/Index on the list of NFTS that we need to fetch
+        token_id=6 # Arithmetic Increment/Index on the list of NFTS that we need to fetch
         start_time_in_seconds = 20
         listing_duration_in_seconds = 1800
         quantity = 1
         currency_contract_address = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'
-        buyout_price_per_token = 0.5
+        buyout_price_per_token = 0.1 #Currency in WMATIC (Wrapped MATIC)
 
         try:
             self.marketplace.direct.create_listing(NewDirectListing(
@@ -49,5 +50,26 @@ class Marketplace:
 
 
 marketplace = Marketplace()
-#marketplace.create_listing() 
-print(marketplace.get_all_listings())
+marketplace.create_listing() 
+#print(marketplace.get_all_listings())
+
+class Uniswap:
+    WMATIC_address = '0x9c3c9283d3e44854697cd22d3faa240cfb032889'
+    MATIC_address = '0x0000000000000000000000000000000000001010'
+    def __init__(self, address, private_key, version, provider):
+        self.address = address
+        self.private_key = private_key
+        self.version = version
+        self.provider = provider
+        self.uniswap = Uniswap(address=self.address, private_key=self.private_key, version=self.version, provider=self.provider)
+    
+    def get_price_output(self, amount):
+        output_amount = self.uniswap.get_price_output(self.MATIC_address, self.WMATIC_address, amount*10**18)
+        return output_amount
+
+    def make_trade(self, amount):
+        resulting_trans = self.uniswap.make_trade(self.MATIC_address, self.WMATIC_address, amount*10**18)
+        return resulting_trans
+
+
+    
