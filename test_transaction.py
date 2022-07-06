@@ -25,4 +25,4 @@ class NFT:
 
 nft = NFT()
 
-#nft.create()
+#nft.create('hi', 'please_work', 'www.google.ca')

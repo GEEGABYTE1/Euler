@@ -4,22 +4,23 @@ from thirdweb import ThirdwebSDK
 from thirdweb.types import NewDirectListing
 from dotenv import load_dotenv
 import os
-from uniswap import Uniswap
+
 
 load_dotenv()
 
 class Marketplace:
-    sdk = ThirdwebSDK.from_private_key(os.environ.get("PRIVATE_KEY"), os.environ.get('API_URL'))
+    sdk = ThirdwebSDK.from_private_key(os.environ.get("UNISWAP_PRIVATE_KEY"), os.environ.get('API_URL'))
     marketplace_address = os.environ.get("MARKETPLACE_CONTRACT_ADDRESS")
-    marketplace = sdk.get_marketplace('0xdDD8F1656Ef89bB1FbA161265dcB8a70a91f6E0A')
+    marketplace = sdk.get_marketplace('0x08f239ED1CF336f51A8dD99032a750b8a75EecB9')
 
     def create_listing(self):
         asset_contract_address = '0x1b4ca86C0e779F8A63088664857fe2C64fA11CaB'
-        token_id=6 # Arithmetic Increment/Index on the list of NFTS that we need to fetch
+        token_id= 7 # Arithmetic Increment/Index on the list of NFTS that we need to fetch
         start_time_in_seconds = 20
         listing_duration_in_seconds = 1800
         quantity = 1
         currency_contract_address = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'
+        #'0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889' - Wrapped MATIC
         buyout_price_per_token = 0.1 #Currency in WMATIC (Wrapped MATIC)
 
         try:
@@ -37,10 +38,10 @@ class Marketplace:
             print(IndexError)
             print('Regardless, it was a success')
     
-    def buy(self):
-        listing_id = 2
-        quantity_desired = 1
-        self.marketplace.buyout_listing(listing_id, quantity_desired)
+    def buy(self, listing_id):
+        self.marketplace.buyout_listing(listing_id, 1)
+
+
 
     def get_all_listings(self):
         listings = self.marketplace.get_all_listings()
@@ -50,26 +51,9 @@ class Marketplace:
 
 
 marketplace = Marketplace()
-marketplace.create_listing() 
+#marketplace.create_listing() 
 #print(marketplace.get_all_listings())
-
-class Uniswap:
-    WMATIC_address = '0x9c3c9283d3e44854697cd22d3faa240cfb032889'
-    MATIC_address = '0x0000000000000000000000000000000000001010'
-    def __init__(self, address, private_key, version, provider):
-        self.address = address
-        self.private_key = private_key
-        self.version = version
-        self.provider = provider
-        self.uniswap = Uniswap(address=self.address, private_key=self.private_key, version=self.version, provider=self.provider)
-    
-    def get_price_output(self, amount):
-        output_amount = self.uniswap.get_price_output(self.MATIC_address, self.WMATIC_address, amount*10**18)
-        return output_amount
-
-    def make_trade(self, amount):
-        resulting_trans = self.uniswap.make_trade(self.MATIC_address, self.WMATIC_address, amount*10**18)
-        return resulting_trans
+marketplace.buy(0)
 
 
     
