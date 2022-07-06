@@ -20,3 +20,12 @@ button {
     border: none;
     font-weight: bold;
 }
+
+.publish_nft_button{
+    
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    padding-right:100px;
+}
