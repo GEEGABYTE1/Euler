@@ -1,0 +1,48 @@
+
+.title {
+    font-size: 60px;
+
+}
+
+body {
+    background-color: azure;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input {
+    width: 45%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #5f9341;
+    margin-bottom: 4px;
+}
+
+footer {
+    margin-top: 400px;
+    margin-left: 80px;
+    margin-right: 80px;
+    text-align: center;;
+}
+
+button {
+    margin-top: 30px;
+    padding-left: 40px;
+    text-align: center;
+    background: #5f9341;
+    color: white;
+    padding: 10px 260px;
+    border: none;
+    font-weight: bold;
+}
+
+.publish_nft_button{
+    
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+   
+}
