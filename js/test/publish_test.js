@@ -1,5 +1,5 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { Contract } from "ethers";
+
 
 const sdk = new ThirdwebSDK("mumbai")
 const contract = sdk.getNFTCollection("0x1b4ca86C0e779F8A63088664857fe2C64fA11CaB")
@@ -39,9 +39,14 @@ class NFT {
     }
 }
 
+
+
+
+
 const test = new NFT('0x127a95027B5c7E1D807433837C9cDD7e6f336803', 'hi', 'test desc')
-/*const metadata = test.mint_one()
-const tx = await contract.mintTo(test.walletAddress, metadata)
+
+const metadata = test.mint_one()
+const tx = await contract.mintTo('0x127a95027B5c7E1D807433837C9cDD7e6f336803', metadata)
 const receipt = tx.receipt;
-const tokenId = tx.id
-const nft_data = await tx.data();*/
+//const tokenId = tx.id
+//const nft_data = await tx.data();

@@ -7,6 +7,8 @@ const note = "Published to Marketplace"
 
 sendBtn.addEventListener("click", function() {
     data.push(inputWalletAddress.value)
+    data.push(inputNotificationMessage.value)
     savedData.innerText = note
     console.log(data)
 }) 
+
